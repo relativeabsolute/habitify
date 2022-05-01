@@ -19,3 +19,4 @@ testem.log
 /typings
 
 api/lib
+package-lock.json

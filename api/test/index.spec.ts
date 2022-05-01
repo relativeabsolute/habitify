@@ -1,21 +1,18 @@
 import { Server } from "@hapi/hapi";
 import { init } from "../src/server";
 
-describe("server starts", async () => {
+describe("server starts", () => {
     let server: Server;
 
-    beforeEach((done: DoneFn) => {
-        init().then((s) => {
-            server = s;
-            done();
-        });
+    beforeEach(async () => {
+        server = await init();
     });
 
-    afterEach((done: DoneFn) => {
-        server.stop().then(() => done());
+    afterEach(async () => {
+        await server.stop();
     });
 
-    it("index respods", async () => {
+    it("index responds", async () => {
         const res = await server.inject({
             method: "get",
             url: "/",
