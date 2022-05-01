@@ -1,6 +1,8 @@
 import { Server } from "@hapi/hapi";
 import { init } from "../src/server";
 
+import { jest } from "@jest/globals";
+
 describe("server starts", () => {
     let server: Server;
 

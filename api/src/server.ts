@@ -1,14 +1,28 @@
 "use strict";
 
-import Hapi from "@hapi/hapi";
-import { Server } from "@hapi/hapi";
+import Hapi, {
+    ResponseToolkit,
+    Server,
+    Request,
+    ResponseObject,
+} from "@hapi/hapi";
 
 export let server: Server;
+
+function index(request: Request, h: ResponseToolkit): ResponseObject {
+    return h.response().code(200);
+}
 
 export async function init(): Promise<Server> {
     server = Hapi.server({
         port: process.env.PORT || 9000,
         host: "0.0.0.0",
+    });
+
+    server.route({
+        method: "GET",
+        path: "/",
+        handler: index,
     });
 
     return server;
