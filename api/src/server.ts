@@ -9,6 +9,7 @@ import Hapi, {
 import { inject, injectable } from "inversify";
 import { IApiConfig } from "./di/config";
 import { TYPES } from "./di/types";
+import { SpotifyController } from "./controllers/spotify/spotify-controller";
 
 export let server: Server;
 
@@ -18,19 +19,24 @@ function index(request: Request, h: ResponseToolkit): ResponseObject {
 
 @injectable()
 export class AppHost {
-    constructor(@inject(TYPES.ApiConfig) private apiConfig: IApiConfig) {}
+    constructor(
+        @inject(TYPES.ApiConfig) private apiConfig: IApiConfig,
+        @inject(SpotifyController) private spotifyController: SpotifyController
+    ) {}
 
     private initServer(): Server {
         let server = Hapi.server({
             port: this.apiConfig.port,
             host: "0.0.0.0",
         });
+        this.spotifyController.configure(server);
 
         server.route({
             method: "GET",
             path: "/",
             handler: index,
         });
+        this.spotifyController.setRoutes(server);
 
         return server;
     }
