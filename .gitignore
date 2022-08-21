@@ -20,3 +20,4 @@ testem.log
 
 api/lib
 package-lock.json
+config.json

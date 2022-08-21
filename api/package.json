@@ -21,7 +21,10 @@
     "author": "Johan Burke",
     "license": "MIT",
     "dependencies": {
-        "@hapi/hapi": "^20.2.2"
+        "@hapi/hapi": "^20.2.2",
+        "@types/inversify": "^2.0.33",
+        "inversify": "^6.0.1",
+        "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
         "@types/hapi__hapi": "^20.0.10",

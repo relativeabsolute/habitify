@@ -1,0 +1,9 @@
+{
+    "port": 9000,
+    "spotifyConfig": {
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:9000/callback"
+    }
+}
+

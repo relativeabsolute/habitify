@@ -1,3 +1,5 @@
-import { init, start } from "./server";
+import "reflect-metadata";
+import DiContainer from "./di/di-container";
+import { AppHost } from "./server";
 
-init().then(() => start());
+DiContainer.resolve<AppHost>(AppHost).start();
