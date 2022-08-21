@@ -50,10 +50,26 @@ export class AppHost {
 
     async start(): Promise<void> {
         const server = this.initServer();
+        await this.registerPlugins(server);
         server.log(
             ["info"],
             `Listening on ${server.settings.host}:${server.settings.port}`
         );
         return server.start();
+    }
+
+    private async registerPlugins(server: Server): Promise<void> {
+        let pinoOptions: any = {
+            redact: ["req.headers.authorization"],
+        };
+        if (process.env.NODE_ENV !== "production") {
+            pinoOptions["transport"] = {
+                target: "pino-pretty",
+            };
+        }
+        await server.register({
+            plugin: require("hapi-pino"),
+            options: pinoOptions,
+        });
     }
 }

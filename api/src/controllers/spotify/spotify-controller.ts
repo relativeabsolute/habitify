@@ -56,7 +56,7 @@ export class SpotifyController implements IController {
         var state = req.query.state || null;
 
         if (state === null || state !== req.state[Cookies.SpotifyAuthState]) {
-            console.log("state mismatch!");
+            req.log(["error", "spotify"], "state mismatch");
             const errorState = new URLSearchParams({
                 error: "state_mismatch",
             });
@@ -64,7 +64,7 @@ export class SpotifyController implements IController {
                 `${this.apiConfig.frontendUrl}/#?${errorState.toString()}`
             );
         } else {
-            console.log("state matched!");
+            req.log(["info", "spotify"], "state matched");
             h.unstate(Cookies.SpotifyAuthState);
             const accessTokenUrl = "https://accounts.spotify.com/api/token";
             const tokenReqForm = new URLSearchParams({
@@ -74,7 +74,7 @@ export class SpotifyController implements IController {
             });
             const client_id = this.apiConfig.spotifyConfig.clientId;
             const client_secret = this.apiConfig.spotifyConfig.clientSecret;
-            console.log("making token request!");
+            req.log(["info", "spotify"], "initiating token request");
             try {
                 const clientPair = Buffer.from(
                     `${client_id}:${client_secret}`
@@ -88,12 +88,9 @@ export class SpotifyController implements IController {
                         },
                     }
                 );
-
-                console.log(`access token: ${response.data.access_token}`);
-                console.log(`refresh token: ${response.data.refresh_token}`);
                 return h.redirect(`${this.apiConfig.frontendUrl}/#`);
             } catch (error: any) {
-                console.log(error.response);
+                req.log(["error", "spotify"], error.response);
                 return h.redirect(`${this.apiConfig.frontendUrl}/#`);
             }
         }
