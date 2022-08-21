@@ -41,6 +41,7 @@ export class SpotifyController implements IController {
             state: state,
         });
         return h
+            .response()
             .redirect(
                 `https://accounts.spotify.com/authorize?${authParams.toString()}`
             )
@@ -55,11 +56,13 @@ export class SpotifyController implements IController {
         var state = req.query.state || null;
 
         if (state === null || state !== req.state[Cookies.SpotifyAuthState]) {
+            console.log("state mismatch!");
             const errorState = new URLSearchParams({
                 error: "state_mismatch",
             });
             return h.redirect(`/#?${errorState.toString()}`);
         } else {
+            console.log("state matched!");
             h.unstate(Cookies.SpotifyAuthState);
             const accessTokenUrl = "https://accounts.spotify.com/api/token";
             const tokenReqForm = new URLSearchParams({
@@ -69,16 +72,28 @@ export class SpotifyController implements IController {
             });
             const client_id = this.apiConfig.spotifyConfig.clientId;
             const client_secret = this.apiConfig.spotifyConfig.clientSecret;
-            const response = await axios.post(accessTokenUrl, tokenReqForm, {
-                headers: {
-                    Authorization: `Basic: ${Buffer.from(
-                        `${client_id}:${client_secret}`
-                    ).toString("base64")}`,
-                },
-            });
-            console.log(`access token: ${response.data.access_token}`);
-            console.log(`refresh token: ${response.data.refresh_token}`);
-            return h.redirect("/#");
+            console.log("making token request!");
+            try {
+                const clientPair = Buffer.from(
+                    `${client_id}:${client_secret}`
+                ).toString("base64");
+                const response = await axios.post(
+                    accessTokenUrl,
+                    tokenReqForm,
+                    {
+                        headers: {
+                            Authorization: `Basic ${clientPair}`,
+                        },
+                    }
+                );
+
+                console.log(`access token: ${response.data.access_token}`);
+                console.log(`refresh token: ${response.data.refresh_token}`);
+                return h.redirect("http://localhost:4200/#");
+            } catch (error: any) {
+                console.log(error.response);
+                return h.redirect(`http://localhost:4200/#`);
+            }
         }
     }
 }

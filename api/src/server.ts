@@ -28,6 +28,11 @@ export class AppHost {
         let server = Hapi.server({
             port: this.apiConfig.port,
             host: "0.0.0.0",
+            routes: {
+                cors: {
+                    origin: ["http://localhost:4200"], // TODO: get this from config
+                },
+            },
         });
         this.spotifyController.configure(server);
 
