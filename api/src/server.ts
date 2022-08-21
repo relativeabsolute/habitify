@@ -6,10 +6,10 @@ import Hapi, {
     Request,
     ResponseObject,
 } from "@hapi/hapi";
-import { inject, injectable } from "inversify";
+import { inject, injectable, multiInject } from "inversify";
 import { IApiConfig } from "./di/config";
 import { TYPES } from "./di/types";
-import { SpotifyController } from "./controllers/spotify/spotify-controller";
+import { IController } from "./controllers";
 
 export let server: Server;
 
@@ -21,7 +21,7 @@ function index(request: Request, h: ResponseToolkit): ResponseObject {
 export class AppHost {
     constructor(
         @inject(TYPES.ApiConfig) private apiConfig: IApiConfig,
-        @inject(SpotifyController) private spotifyController: SpotifyController
+        @multiInject(TYPES.Controller) private controllers: IController[]
     ) {}
 
     private initServer(): Server {
@@ -30,25 +30,28 @@ export class AppHost {
             host: "0.0.0.0",
             routes: {
                 cors: {
-                    origin: ["http://localhost:4200"], // TODO: get this from config
+                    origin: [this.apiConfig.frontendUrl],
                 },
             },
         });
-        this.spotifyController.configure(server);
+        this.controllers.forEach((controller) => {
+            controller.configure(server);
+            controller.setRoutes(server);
+        });
 
         server.route({
             method: "GET",
             path: "/",
             handler: index,
         });
-        this.spotifyController.setRoutes(server);
 
         return server;
     }
 
     async start(): Promise<void> {
         const server = this.initServer();
-        console.log(
+        server.log(
+            ["info"],
             `Listening on ${server.settings.host}:${server.settings.port}`
         );
         return server.start();

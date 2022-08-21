@@ -8,6 +8,7 @@ export interface ISpotifyConfig {
 
 export interface IApiConfig {
     port: number;
+    frontendUrl: string;
     spotifyConfig: ISpotifyConfig;
 }
 

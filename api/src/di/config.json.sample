@@ -1,5 +1,6 @@
 {
     "port": 9000,
+    "frontendUrl": "http://localhost:4200",
     "spotifyConfig": {
         "clientId": "",
         "clientSecret": "",

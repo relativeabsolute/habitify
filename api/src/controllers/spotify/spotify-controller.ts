@@ -60,7 +60,9 @@ export class SpotifyController implements IController {
             const errorState = new URLSearchParams({
                 error: "state_mismatch",
             });
-            return h.redirect(`/#?${errorState.toString()}`);
+            return h.redirect(
+                `${this.apiConfig.frontendUrl}/#?${errorState.toString()}`
+            );
         } else {
             console.log("state matched!");
             h.unstate(Cookies.SpotifyAuthState);
@@ -89,10 +91,10 @@ export class SpotifyController implements IController {
 
                 console.log(`access token: ${response.data.access_token}`);
                 console.log(`refresh token: ${response.data.refresh_token}`);
-                return h.redirect("http://localhost:4200/#");
+                return h.redirect(`${this.apiConfig.frontendUrl}/#`);
             } catch (error: any) {
                 console.log(error.response);
-                return h.redirect(`http://localhost:4200/#`);
+                return h.redirect(`${this.apiConfig.frontendUrl}/#`);
             }
         }
     }
