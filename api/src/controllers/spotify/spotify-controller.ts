@@ -14,6 +14,11 @@ export class SpotifyController implements IController {
 
     public configure(server: Server): void {
         server.state(Cookies.SpotifyAuthState);
+        server.state(Cookies.SpotifyAuthResponse, {
+            isSameSite: false,
+            clearInvalid: true,
+            encoding: "base64json",
+        });
     }
 
     public setRoutes(server: Server): void {
@@ -61,7 +66,7 @@ export class SpotifyController implements IController {
                 error: "state_mismatch",
             });
             return h.redirect(
-                `${this.apiConfig.frontendUrl}/#?${errorState.toString()}`
+                `${this.apiConfig.frontendUrl}/#/error?${errorState.toString()}`
             );
         } else {
             req.log(["info", "spotify"], "state matched");
@@ -88,10 +93,12 @@ export class SpotifyController implements IController {
                         },
                     }
                 );
-                return h.redirect(`${this.apiConfig.frontendUrl}/#`);
+
+                h.state(Cookies.SpotifyAuthResponse, response.data);
+                return h.redirect(`${this.apiConfig.frontendUrl}/#/success`);
             } catch (error: any) {
                 req.log(["error", "spotify"], error.response);
-                return h.redirect(`${this.apiConfig.frontendUrl}/#`);
+                return h.redirect(`${this.apiConfig.frontendUrl}/#/error`);
             }
         }
     }

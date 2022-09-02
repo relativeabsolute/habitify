@@ -7,4 +7,5 @@ export interface IController {
 
 export const Cookies = {
     SpotifyAuthState: "spotify_auth_state",
+    SpotifyAuthResponse: "spotify_auth",
 };

@@ -10,8 +10,4 @@ export class AppComponent {
     title = 'habitify-frontend';
 
     constructor(private spotifyService: SpotifyService) {}
-
-    spotifyLogin(): void {
-        this.spotifyService.login().subscribe();
-    }
 }
