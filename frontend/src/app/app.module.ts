@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SuccessComponent } from './spotify/success.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { SpotifyModule } from './spotify/spotify.module';
 
 @NgModule({
     declarations: [AppComponent, SuccessComponent],
@@ -18,6 +19,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
         BrowserAnimationsModule,
         SharedModule,
         MatToolbarModule,
+        SpotifyModule
     ],
     providers: [
         {

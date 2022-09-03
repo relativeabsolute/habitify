@@ -15,7 +15,7 @@ export class SpotifyController implements IController {
     public configure(server: Server): void {
         server.state(Cookies.SpotifyAuthState);
         server.state(Cookies.SpotifyAuthResponse, {
-            isSameSite: false,
+            isSameSite: 'Lax',
             clearInvalid: true,
             encoding: "base64json",
         });

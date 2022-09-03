@@ -9,9 +9,11 @@ export class SuccessComponent implements OnInit {
     constructor(private cookieService: CookieService) {}
 
     ngOnInit(): void {
-        const spotifyAuth = this.cookieService.get(
-            cookieKeys.SpotifyAuthResponse
-        );
-        console.log(spotifyAuth);
+        setTimeout(() => {
+            const spotifyAuth = this.cookieService.get(
+                cookieKeys.SpotifyAuthResponse
+            );
+        });
+        
     }
 }
