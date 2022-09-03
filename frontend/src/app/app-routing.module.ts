@@ -1,11 +1,13 @@
+import { SpotifyAuthGuard } from './spotify/spotify-auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SuccessComponent } from './spotify/success.component';
 
 const routes: Routes = [
     {
-        component: SuccessComponent,
-        path: 'success',
+        path: 'spotify',
+        canLoad: [SpotifyAuthGuard],
+        loadChildren: () =>
+            import('./spotify/spotify.module').then((m) => m.SpotifyModule),
     },
 ];
 

@@ -27,7 +27,7 @@ export class AppHost {
     private initServer(): Server {
         let server = Hapi.server({
             port: this.apiConfig.port,
-            host: "0.0.0.0",
+            host: "127.0.0.1",
             routes: {
                 cors: {
                     origin: [this.apiConfig.frontendUrl],

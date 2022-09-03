@@ -1,11 +1,12 @@
-import {NgModule} from "@angular/core";
-import {SharedModule} from "../common/shared.module";
-import { SpotifyLoginComponent } from "./login/login.component";
+import { NgModule } from '@angular/core';
+import { SharedModule } from '../common/shared.module';
+import { SpotifyLoginComponent } from './login/login.component';
+import { SpotifyRoutingModule } from './spotify-routing.module';
 
 @NgModule({
     declarations: [SpotifyLoginComponent],
-    imports: [SharedModule],
+    imports: [SharedModule, SpotifyRoutingModule],
     exports: [SpotifyLoginComponent],
-    providers: []
+    providers: [],
 })
 export class SpotifyModule {}

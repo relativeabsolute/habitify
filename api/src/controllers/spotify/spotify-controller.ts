@@ -15,7 +15,7 @@ export class SpotifyController implements IController {
     public configure(server: Server): void {
         server.state(Cookies.SpotifyAuthState);
         server.state(Cookies.SpotifyAuthResponse, {
-            isSameSite: 'Lax',
+            isSameSite: "Lax",
             clearInvalid: true,
             encoding: "base64json",
         });
@@ -95,7 +95,9 @@ export class SpotifyController implements IController {
                 );
 
                 h.state(Cookies.SpotifyAuthResponse, response.data);
-                return h.redirect(`${this.apiConfig.frontendUrl}/#/success`);
+                return h.redirect(
+                    `${this.apiConfig.frontendUrl}/#/spotify/success`
+                );
             } catch (error: any) {
                 req.log(["error", "spotify"], error.response);
                 return h.redirect(`${this.apiConfig.frontendUrl}/#/error`);

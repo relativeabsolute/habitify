@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SuccessComponent } from './spotify/success.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SpotifyModule } from './spotify/spotify.module';
+import { SpotifyAuthGuard } from './spotify/spotify-auth.guard';
 
 @NgModule({
     declarations: [AppComponent, SuccessComponent],
@@ -19,13 +20,14 @@ import { SpotifyModule } from './spotify/spotify.module';
         BrowserAnimationsModule,
         SharedModule,
         MatToolbarModule,
-        SpotifyModule
+        SpotifyModule,
     ],
     providers: [
         {
             provide: LocationStrategy,
             useClass: HashLocationStrategy,
         },
+        SpotifyAuthGuard,
     ],
     bootstrap: [AppComponent],
 })
