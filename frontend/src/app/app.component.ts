@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SpotifyService } from './services/spotify.service';
 
 @Component({
     selector: 'app-root',
@@ -9,5 +8,5 @@ import { SpotifyService } from './services/spotify.service';
 export class AppComponent {
     title = 'habitify-frontend';
 
-    constructor(private spotifyService: SpotifyService) {}
+    constructor() {}
 }
